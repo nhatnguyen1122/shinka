@@ -46,6 +46,30 @@ conda run -n openevolve_test python examples/openevolve_parity/run_parity.py --c
 conda run -n openevolve_test python examples/openevolve_parity/run_parity.py --config_path examples/openevolve_parity/signal_processing_nvidia.yaml --generations 1 --results_dir results/nvidia_smoke/signal_processing
 ```
 
+## Multiple Runs
+
+Use the matrix runner for repeated independent runs:
+
+```bash
+conda run -n openevolve_test python scripts/run_nvidia_parity_matrix.py \
+  --runs 5 \
+  --benchmarks func,cp,sp,kmod \
+  --output-root results/nvidia_parity_5runs \
+  --resume
+```
+
+For a cheap wrapper smoke test:
+
+```bash
+conda run -n openevolve_test python scripts/run_nvidia_parity_matrix.py \
+  --runs 1 \
+  --benchmarks kmod \
+  --generations 0 \
+  --output-root results/nvidia_matrix_smoke
+```
+
+Each run writes `convergence.jsonl`; the matrix summary is appended to `results.jsonl` under the output root.
+
 ## Full Runs
 
 Use the configs as committed:
@@ -80,3 +104,4 @@ This writes `results/.../convergence.jsonl` with `iteration` mapped from Shinka 
 - `examples/openevolve_parity/*_nvidia.yaml`
 - copied benchmark directories under `examples/openevolve_parity/`
 - `scripts/export_convergence.py`
+- `scripts/run_nvidia_parity_matrix.py`
