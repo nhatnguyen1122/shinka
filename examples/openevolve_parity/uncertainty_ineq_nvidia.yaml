@@ -1,0 +1,51 @@
+benchmark_dir: uncertainty_ineq
+eval_time: 00:10:00
+max_evaluation_jobs: 4
+max_proposal_jobs: 4
+max_db_workers: 4
+db_config:
+  num_islands: 4
+  archive_size: 25
+  elite_selection_ratio: 0.2
+  num_archive_inspirations: 2
+  num_top_k_inspirations: 1
+  migration_interval: 10
+  migration_rate: 0.1
+  island_elitism: true
+  enforce_island_separation: true
+  parent_selection_strategy: weighted
+  archive_selection_strategy: crowding
+  island_selection_strategy: equal
+  archive_criteria:
+    combined_score: 1.0
+evo_config:
+  task_sys_msg: "SETTING:\nYou are an expert in harmonic analysis, numerical optimization, and AI-driven mathematical discovery.\nYour task is to evolve and optimize a Python script to find a better **upper bound** for the uncertainty inequality constant C\u2084.\n\nPROBLEM CONTEXT:\nTarget: Find an even function f(x) that **minimizes** the product A(f)A(f\u0302), where A(f) is the largest positive root of f.\nThis minimal product provides a tight upper bound for the constant C\u2084.\n\nCurrent best known upper bound: C\u2084 \u2264 0.3215872333529007\nGoal: Find a set of coefficients for a test function that results in a C\u2084 value lower than 0.3215872333529007.\n\nMETHOD:\nThe test function is parameterized as f(x) = P(x)exp(-\u03C0x\xB2), where P(x) is a linear combination of even Hermite polynomials: P(x) = c\u2080H\u2080(x) + c\u2081H\u2084(x) + c\u2082H\u2088(x) + ...\nThe problem simplifies to finding coefficients [c\u2080, c\u2081, c\u2082, ...] that minimize the largest positive\
+    \ root of P(x), subject to the constraint P(0) = 0.\nThe final C\u2084 bound is the square of this minimal root, (r_max)\xB2.\n\nPERFORMANCE METRICS:\n- c4_bound: bound found by the algorithm.\n- combined_score: 0.3215872333529007 / c4_bound (The primary objective is to MAXIMIZE this value - a value > 1 means a new record).\n- r_max: largest positive root found.\n- coeffs: coefficients found in the optimization.\n- eval_time: evaluation time of the script.\n\nVALIDATION FRAMEWORK:\n- The evaluation script reconstructs the polynomial from the discovered coefficients and uses `numpy.roots` to independently verify the largest positive root and the C4 bound.\n- It also checks the problem constraints (P(0)=0 and the positivity of the highest-order coefficient).\n"
+  patch_types:
+  - full
+  - diff
+  - cross
+  patch_type_probs:
+  - 0.4
+  - 0.5
+  - 0.1
+  num_generations: 100
+  max_patch_resamples: 3
+  max_patch_attempts: 1
+  job_type: local
+  language: python
+  llm_models:
+  - local/openai/gpt-oss-120b@https://integrate.api.nvidia.com/v1?api_key_env=NVIDIA_API_KEY
+  llm_dynamic_selection: fixed
+  llm_kwargs:
+    temperatures:
+    - 0.2
+    max_tokens: 4096
+    reasoning_efforts:
+    - disabled
+  meta_rec_interval: null
+  embedding_model: null
+  results_dir: results/openevolve_parity_uncertainty_ineq_nvidia
+  max_novelty_attempts: 1
+  max_api_costs: null
+  evolve_prompts: false

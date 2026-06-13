@@ -44,7 +44,7 @@ llm:
   max_total_tokens: 5000000
 
 prompt:
-  system_message: "You are an expert signal processing engineer specializing in real-time adaptive filtering algorithms. Your task is to improve a signal processing algorithm that filters volatile, non-stationary time series data using a sliding window approach. Focus on multi-objective optimization of: slope change minimization, lag error minimization, tracking accuracy, and false reversal penalty."
+  system_message: "You are an expert signal processing engineer specializing in adaptive filtering algorithms. Your task is to improve a signal processing algorithm that filters volatile, non-stationary time series data using a sliding window approach. The evaluator calls run_signal_processing(noisy_signal=..., window_size=20); use the provided noisy_signal instead of generating a replacement signal. Return a filtered signal of length len(noisy_signal) - window_size + 1. Focus on multi-objective optimization of: slope change minimization, lag error minimization, tracking accuracy, and false reversal penalty."
   num_top_programs: 3
   use_template_stochasticity: true
 

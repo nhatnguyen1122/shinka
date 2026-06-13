@@ -1,0 +1,52 @@
+benchmark_dir: first_autocorr_ineq
+eval_time: 00:10:00
+max_evaluation_jobs: 4
+max_proposal_jobs: 4
+max_db_workers: 4
+db_config:
+  num_islands: 4
+  archive_size: 25
+  elite_selection_ratio: 0.2
+  num_archive_inspirations: 2
+  num_top_k_inspirations: 1
+  migration_interval: 10
+  migration_rate: 0.1
+  island_elitism: true
+  enforce_island_separation: true
+  parent_selection_strategy: weighted
+  archive_selection_strategy: crowding
+  island_selection_strategy: equal
+  archive_criteria:
+    combined_score: 1.0
+evo_config:
+  task_sys_msg: "SETTING:\nYou are an expert in functional analysis, harmonic analysis, numerical optimization, and AI-driven mathematical discovery.\nYour task is to evolve and optimize a Python script to find the optimal function that minimizes the upper bound of the constant C1.\n\nPROBLEM CONTEXT:\nTarget: Find a non-negative function f: R \u2192 R that minimizes the upper bound of the constant C1 in the inequality:\nmax_{-1/2\u2264t\u22641/2} f\u2605f(t) \u2265 C\u2081 (\u222B_{-1/4}^{1/4} f(x) dx)\xB2\nwhere f\u2605f(t) = \u222B f(t-x)f(x) dx is the autoconvolution.\n\nCurrent best known bounds:\n* literature: 1.28 \u2264 C1 \u2264 1.5098\n* alphaevolve: C1 \u2264 1.5052939684401607\nGoal: Beat the current upper bound of 1.5052939684401607 discovered by step functions and alphaevolve.\n\nConstraint: The function f must be non-negative everywhere and have non-zero integral over [-1/4, 1/4].\n\nMATHEMATICAL FORMULATION:\nGiven: Discretized domain [-1/4, 1/4] with n_points equally-spaced\
+    \ grid points.\nObjective: Minimize min_{t\u2208[-1/2,1/2]} (f\u2605f)(t) / (\u222Bf dx)\xB2 over all non-negative functions f.\nDiscretization: Use finite differences and discrete convolution to approximate integrals and autoconvolution.\n\nPERFORMANCE METRICS:\ncombined_score: The 1.5052939684401607/C1 constant achieved by the discovered function (PRIMARY OBJECTIVE - maximize this)\nc1: constant achieved (current best upper bound)\neval_time: Time to reach best solution\nn_points: number of points used in the integral interval\nloss: loss valued of the function used in minimization\n\nVALIDATION FRAMEWORK:\nMathematical Validation: Verify the C1 computation using independent numerical integration\nNon-negativity Check: Ensure f(x) \u2265 0 everywhere (up to numerical tolerance)\nIntegral Verification: Confirm \u222Bf dx > 0 to avoid degenerate solutions\nConsistency Check: Re-compute autoconvolution and verify inequality holds\n\nTECHNICAL REQUIREMENTS:\nReproducibility: Control random\
+    \ seeds for deterministic results\nNumerical Stability: Handle potential division by zero in integral ratios\nMemory Management: Discrete convolution can be memory-intensive for large grids\nConstraint Handling: Maintain non-negativity throughout optimization\n\nSUCCESS CRITERIA:\nPrimary: Achieving c1 < 1.5052939684401607 (beating current record)\nSecondary: Finding interpretable functions that achieve high C1 values\nRobustness: Solutions that work across multiple runs and parameter settings\nEfficiency: Fast convergence to high-quality solutions\n"
+  patch_types:
+  - full
+  - diff
+  - cross
+  patch_type_probs:
+  - 0.4
+  - 0.5
+  - 0.1
+  num_generations: 100
+  max_patch_resamples: 3
+  max_patch_attempts: 1
+  job_type: local
+  language: python
+  llm_models:
+  - local/openai/gpt-oss-120b@https://integrate.api.nvidia.com/v1?api_key_env=NVIDIA_API_KEY
+  llm_dynamic_selection: fixed
+  llm_kwargs:
+    temperatures:
+    - 0.2
+    max_tokens: 4096
+    reasoning_efforts:
+    - disabled
+  meta_rec_interval: null
+  embedding_model: null
+  results_dir: results/openevolve_parity_first_autocorr_ineq_nvidia
+  max_novelty_attempts: 1
+  max_api_costs: null
+  evolve_prompts: false

@@ -42,6 +42,65 @@ The framework supports **parallel evaluation of candidates** locally or on a Slu
 
 ![](https://raw.githubusercontent.com/SakanaAI/ShinkaEvolve/main/docs/media/conceptual.png)
 
+## Server Experiment: ShinkaEvolve Parity Matrix
+
+Use this section to run only the requested ShinkaEvolve experiments:
+
+- signal processing (`sp`)
+- circle packing 26 (`cp`)
+- circle packing 32 (`cp32`)
+- circle packing rectangle (`cprect`)
+- Erdos minimum overlap (`erdos`)
+
+Each benchmark runs 5 independent runs, 300 generations per run. Outputs are written under `results/`, which is ignored by git. Do not commit API keys, `.env` files, logs, SQLite databases, pickles, or result directories.
+
+### Linux Conda Setup
+
+```bash
+git clone <SHINKA_EVOLVE_REPO_URL> ShinkaEvolve
+cd ShinkaEvolve
+
+conda create -n shinka_exp python=3.11 -y
+conda activate shinka_exp
+
+python -m pip install --upgrade pip
+python -m pip install -e .
+python -m pip install numpy scipy matplotlib pandas pyyaml openai litellm tqdm rich
+```
+
+The local `openevolve_test` environment used during development contains many extra packages and macOS-specific packages. The command above is the cleaner Linux starting point for these parity benchmarks; install additional packages only if a benchmark reports a missing dependency.
+
+### API Key
+
+Set the NVIDIA key in the shell or in a local `.env` file that is never committed:
+
+```bash
+export NVIDIA_API_KEY="nvapi-..."
+```
+
+The requested parity configs use NVIDIA's OpenAI-compatible endpoint through model strings such as `local/openai/gpt-oss-120b@https://integrate.api.nvidia.com/v1?api_key_env=NVIDIA_API_KEY`.
+
+### Run Requested ShinkaEvolve Experiments
+
+```bash
+conda activate shinka_exp
+
+python scripts/run_nvidia_parity_matrix.py \
+  --runs 5 \
+  --benchmarks sp,cp,cp32,cprect,erdos \
+  --generations 300 \
+  --output-root results/server_shinka_sp_cp26_cp32_cprect_erdos_5runs_300gen \
+  --resume
+```
+
+Notes:
+
+- ShinkaEvolve's parity runner accepts `--generations`; this is the equivalent run length control for these experiments.
+- These Shinka configs do not use a total-token-budget field like OpenEvolve's `llm.max_total_tokens`. They set per-call `max_tokens: 4096`; leave token budgeting to the provider/account limits unless you add a Shinka-specific cost cap.
+- `--resume` skips/reuses completed run directories when rerunning the same command.
+- Use `--fail-fast` if the server should stop on the first failed run.
+- Results summary is written to `<output-root>/results.jsonl`; each run directory contains `convergence.jsonl`, logs, generated programs, and Shinka state.
+
 ## Documentation 📝
 
 | Guide | Description | What You'll Learn |

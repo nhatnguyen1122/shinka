@@ -374,8 +374,7 @@ def evaluate(program_path):
                 result = run_with_timeout(
                     program.run_signal_processing,
                     kwargs={
-                        "signal_length": len(noisy_signal),
-                        "noise_level": 0.3,
+                        "noisy_signal": noisy_signal,
                         "window_size": 20,
                     },
                     timeout_seconds=10,
@@ -563,9 +562,16 @@ def evaluate_stage1(program_path):
 
         # Quick test with small signal
         try:
+            signal_length = 100
+            window_size = 10
+            np.random.seed(123)
+            t = np.linspace(0, 2, signal_length)
+            clean_signal = np.sin(2 * np.pi * t)
+            noisy_signal = clean_signal + np.random.normal(0, 0.3, signal_length)
+
             result = run_with_timeout(
                 program.run_signal_processing,
-                kwargs={"signal_length": 100, "noise_level": 0.3, "window_size": 10},
+                kwargs={"noisy_signal": noisy_signal, "window_size": window_size},
                 timeout_seconds=5,
             )
 
@@ -576,7 +582,7 @@ def evaluate_stage1(program_path):
                     composite_score = 0.5  # Baseline score for working programs
 
                     # Bonus for reasonable output length
-                    expected_length = 100 - 10 + 1  # signal_length - window_size + 1
+                    expected_length = signal_length - window_size + 1
                     if len(filtered_signal) == expected_length:
                         composite_score += 0.2
 

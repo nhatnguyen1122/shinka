@@ -127,21 +127,29 @@ def generate_test_signal(length=1000, noise_level=0.3, seed=42):
     return noisy_signal, clean_signal
 
 
-def run_signal_processing(signal_length=1000, noise_level=0.3, window_size=20):
+def run_signal_processing(noisy_signal=None, signal_length=1000, noise_level=0.3, window_size=20):
     """
     Run the signal processing algorithm on a test signal.
+
+    Args:
+        noisy_signal: Input signal to filter. If omitted, a synthetic signal is generated
+            for standalone/backward-compatible execution.
+        signal_length: Length if generating a synthetic signal.
+        noise_level: Noise level if generating a synthetic signal.
+        window_size: Window size for processing.
 
     Returns:
         Dictionary containing results and metrics
     """
-    # Generate test signal
-    noisy_signal, clean_signal = generate_test_signal(signal_length, noise_level)
+    if noisy_signal is None:
+        noisy_signal, clean_signal = generate_test_signal(signal_length, noise_level)
+    else:
+        noisy_signal = np.asarray(noisy_signal, dtype=float)
+        clean_signal = None
 
-    # Process the signal
     filtered_signal = process_signal(noisy_signal, window_size, "enhanced")
 
-    # Calculate basic metrics
-    if len(filtered_signal) > 0:
+    if len(filtered_signal) > 0 and clean_signal is not None:
         # Align signals for comparison (account for processing delay)
         delay = window_size - 1
         aligned_clean = clean_signal[delay:]
@@ -168,6 +176,15 @@ def run_signal_processing(signal_length=1000, noise_level=0.3, window_size=20):
             "correlation": correlation,
             "noise_reduction": noise_reduction,
             "signal_length": min_length,
+        }
+    elif len(filtered_signal) > 0:
+        return {
+            "filtered_signal": filtered_signal,
+            "clean_signal": None,
+            "noisy_signal": None,
+            "correlation": 0,
+            "noise_reduction": 0,
+            "signal_length": len(filtered_signal),
         }
     else:
         return {

@@ -1,4 +1,4 @@
-# Configuration for Real-Time Adaptive Signal Processing Example
+# Configuration for Adaptive Signal Processing Example
 max_iterations: 100
 checkpoint_interval: 10
 log_level: "INFO"
@@ -16,7 +16,7 @@ llm:
 
 # Prompt configuration
 prompt:
-  system_message: "You are an expert signal processing engineer specializing in real-time adaptive filtering algorithms. Your task is to improve a signal processing algorithm that filters volatile, non-stationary time series data using a sliding window approach. The algorithm must minimize noise while preserving signal dynamics with minimal computational latency and phase delay. Focus on the multi-objective optimization of: (1) Slope change minimization - reducing spurious directional reversals, (2) Lag error minimization - maintaining responsiveness, (3) Tracking accuracy - preserving genuine signal trends, and (4) False reversal penalty - avoiding noise-induced trend changes. Consider advanced techniques like adaptive filtering (Kalman filters, particle filters), multi-scale processing (wavelets, EMD), predictive enhancement (polynomial fitting, neural networks), and trend detection methods."
+  system_message: "You are an expert signal processing engineer specializing in adaptive filtering algorithms. Your task is to improve a signal processing algorithm that filters volatile, non-stationary time series data using a sliding window approach. The evaluator calls run_signal_processing(noisy_signal=..., window_size=20); use the provided noisy_signal instead of generating a replacement signal. Return a filtered signal of length len(noisy_signal) - window_size + 1. Focus on the multi-objective optimization of: (1) Slope change minimization - reducing spurious directional reversals, (2) Lag error minimization - maintaining responsiveness, (3) Tracking accuracy - preserving genuine signal trends, and (4) False reversal penalty - avoiding noise-induced trend changes. Consider advanced techniques like adaptive filtering (Kalman filters, particle filters), multi-scale processing (wavelets, EMD), predictive enhancement (polynomial fitting, neural networks), and trend detection methods."
   num_top_programs: 3
   use_template_stochasticity: true
 

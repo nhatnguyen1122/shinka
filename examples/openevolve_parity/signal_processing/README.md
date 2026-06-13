@@ -1,16 +1,16 @@
-# Real-Time Adaptive Signal Processing Algorithm Evolution
+# Adaptive Signal Processing Algorithm Evolution
 
-This example demonstrates how to use OpenEvolve to automatically discover and optimize real-time signal processing algorithms for non-stationary time series data. The challenge involves developing algorithms that can filter volatile signals while preserving important dynamics and minimizing computational latency.
+This example demonstrates how to use OpenEvolve to automatically discover and optimize signal processing algorithms for non-stationary time series data. The challenge involves developing algorithms that can filter volatile signals while preserving important dynamics.
 
 ## Problem Overview
 
 ### The Challenge
-We need to develop a real-time signal processing algorithm that can:
+We need to develop a signal processing algorithm that can:
 
 1. **Filter noise** from volatile, non-stationary time series data
 2. **Preserve genuine signal dynamics** and trend changes
 3. **Minimize spurious directional reversals** caused by noise
-4. **Achieve near-zero phase delay** for real-time applications
+4. **Maintain responsiveness** while tracking the provided noisy signal
 5. **Operate efficiently** within computational constraints
 
 ### Input Signal Characteristics
@@ -23,9 +23,9 @@ We need to develop a real-time signal processing algorithm that can:
   - Rapidly changing spectral characteristics
 
 ### Technical Constraints
-- **Causal Processing**: Must use finite-length sliding window
-- **Fixed Latency**: Output length = Input length - Window size
-- **Real-time Capability**: Process samples as they arrive
+- **Evaluator Input**: Candidates are called as `run_signal_processing(noisy_signal=..., window_size=20)`
+- **Provided Signal**: Use the provided `noisy_signal` instead of generating a replacement signal
+- **Output Length**: Return a filtered signal of length `len(noisy_signal) - window_size + 1`
 - **Memory Efficiency**: Bounded memory usage
 
 ## Multi-Objective Optimization Framework

@@ -9,6 +9,15 @@ shinka_scale*
 !examples/circle_packing/shinka_scale*.yaml
 examples/mnist_train/
 
+# Local secrets and server experiment artifacts
+*.key
+*.pem
+secrets.*
+output*/
+outputs*/
+logs*/
+wandb/
+
 # C extensions
 *.so
 

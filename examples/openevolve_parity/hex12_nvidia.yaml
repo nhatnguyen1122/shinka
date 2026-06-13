@@ -1,0 +1,51 @@
+benchmark_dir: hexagon_packing/12
+eval_time: 00:10:00
+max_evaluation_jobs: 4
+max_proposal_jobs: 4
+max_db_workers: 4
+db_config:
+  num_islands: 4
+  archive_size: 25
+  elite_selection_ratio: 0.2
+  num_archive_inspirations: 2
+  num_top_k_inspirations: 1
+  migration_interval: 10
+  migration_rate: 0.1
+  island_elitism: true
+  enforce_island_separation: true
+  parent_selection_strategy: weighted
+  archive_selection_strategy: crowding
+  island_selection_strategy: equal
+  archive_criteria:
+    combined_score: 1.0
+evo_config:
+  task_sys_msg: "SETTING:\nYou are an expert computational geometer and optimization specialist focusing on hexagon packing problems.\nYour task is to evolve a constructor function that generates an optimal arrangement of exactly 12 unit regular hexagons within a larger regular hexagon, maximizing 1/outer_hex_side_length (equivalently minimizing the outer hexagon's side length).\n\nPROBLEM CONTEXT:\n- Target: Establish new state-of-the-art for 12-hexagon packing of 1/outer_hex_side_length = 1/3.9419123 \u2248 0.2537\n- Constraint: All 12 inner hexagons must be unit regular hexagons (side length = 1) that are fully contained within the outer hexagon with no overlaps\n- Mathematical formulation: For hexagon i at position (xi, yi) with rotation \u03B8i:\n  * Non-overlap: All pairs of inner hexagons must be disjoint\n  * Containment: All vertices of inner hexagons must lie within the outer hexagon\n  * Objective: maximize 1/R where R is the outer hexagon side length\n\nPERFORMANCE METRICS:\n\
+    1. **inv_outer_hex_side_length**: 1/outer_hex_side_length (PRIMARY OBJECTIVE - maximize)\n2. **combined_score**: inverse_side_length / 0.2537 (progress toward beating SOTA)\n3. **eval_time**: Execution time for full evaluation\n"
+  patch_types:
+  - full
+  - diff
+  - cross
+  patch_type_probs:
+  - 0.4
+  - 0.5
+  - 0.1
+  num_generations: 100
+  max_patch_resamples: 3
+  max_patch_attempts: 1
+  job_type: local
+  language: python
+  llm_models:
+  - local/openai/gpt-oss-120b@https://integrate.api.nvidia.com/v1?api_key_env=NVIDIA_API_KEY
+  llm_dynamic_selection: fixed
+  llm_kwargs:
+    temperatures:
+    - 0.2
+    max_tokens: 4096
+    reasoning_efforts:
+    - disabled
+  meta_rec_interval: null
+  embedding_model: null
+  results_dir: results/openevolve_parity_hex12_nvidia
+  max_novelty_attempts: 1
+  max_api_costs: null
+  evolve_prompts: false

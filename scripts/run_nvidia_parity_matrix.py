@@ -16,6 +16,70 @@ from export_convergence import export_convergence
 
 BENCHMARKS = {
     "circle_packing": {"alias": "cp", "config": "examples/openevolve_parity/circle_packing_nvidia.yaml"},
+    "circle_packing_n32": {
+        "alias": "cp32",
+        "config": "examples/openevolve_parity/circle_packing_n32_nvidia.yaml",
+    },
+    "circle_packing_rect": {
+        "alias": "cprect",
+        "config": "examples/openevolve_parity/circle_packing_rect_nvidia.yaml",
+    },
+    "erdos_min_overlap": {
+        "alias": "erdos",
+        "config": "examples/openevolve_parity/erdos_min_overlap_nvidia.yaml",
+    },
+    "first_autocorr_ineq": {
+        "alias": "auto1",
+        "config": "examples/openevolve_parity/first_autocorr_ineq_nvidia.yaml",
+    },
+    "heilbronn_convex/13": {
+        "alias": "hconv13",
+        "config": "examples/openevolve_parity/hconv13_nvidia.yaml",
+    },
+    "heilbronn_convex/14": {
+        "alias": "hconv14",
+        "config": "examples/openevolve_parity/hconv14_nvidia.yaml",
+    },
+    "heilbronn_triangle": {
+        "alias": "heil",
+        "config": "examples/openevolve_parity/heilbronn_triangle_nvidia.yaml",
+    },
+    "hexagon_packing/11": {
+        "alias": "hex11",
+        "config": "examples/openevolve_parity/hex11_nvidia.yaml",
+    },
+    "hexagon_packing/12": {
+        "alias": "hex12",
+        "config": "examples/openevolve_parity/hex12_nvidia.yaml",
+    },
+    "matmul": {
+        "alias": "matmul",
+        "config": "examples/openevolve_parity/matmul_nvidia.yaml",
+    },
+    "minimizing_max_min_dist/2": {
+        "alias": "mmd2",
+        "config": "examples/openevolve_parity/mmd2_nvidia.yaml",
+    },
+    "minimizing_max_min_dist/3": {
+        "alias": "mmd3",
+        "config": "examples/openevolve_parity/mmd3_nvidia.yaml",
+    },
+    "second_autocorr_ineq": {
+        "alias": "auto2",
+        "config": "examples/openevolve_parity/second_autocorr_ineq_nvidia.yaml",
+    },
+    "sums_diffs_finite_sets": {
+        "alias": "sumsdiffs",
+        "config": "examples/openevolve_parity/sums_diffs_finite_sets_nvidia.yaml",
+    },
+    "third_autocorr_ineq": {
+        "alias": "auto3",
+        "config": "examples/openevolve_parity/third_autocorr_ineq_nvidia.yaml",
+    },
+    "uncertainty_ineq": {
+        "alias": "uncert",
+        "config": "examples/openevolve_parity/uncertainty_ineq_nvidia.yaml",
+    },
     "function_minimization": {
         "alias": "func",
         "config": "examples/openevolve_parity/function_minimization_nvidia.yaml",
@@ -50,9 +114,9 @@ def _best_from_convergence(path: Path) -> tuple[float | None, dict[str, Any]]:
         if not line.strip():
             continue
         row = json.loads(line)
-        score = row.get("best_score")
+        score = row.get("score")
         if isinstance(score, (int, float)) and not isinstance(score, bool):
-            if best_score is None or float(score) >= best_score:
+            if best_score is None or float(score) > best_score:
                 best_score = float(score)
                 best_row = row
     return best_score, best_row

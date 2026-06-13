@@ -22,7 +22,7 @@ db_config:
     loc: -0.1
 
 evo_config:
-  task_sys_msg: "You are an expert signal processing engineer specializing in real-time adaptive filtering algorithms. Your task is to improve a signal processing algorithm that filters volatile, non-stationary time series data using a sliding window approach. Focus on multi-objective optimization of: slope change minimization, lag error minimization, tracking accuracy, and false reversal penalty."
+  task_sys_msg: "You are an expert signal processing engineer specializing in adaptive filtering algorithms. Your task is to improve a signal processing algorithm that filters volatile, non-stationary time series data using a sliding window approach. The evaluator calls run_signal_processing(noisy_signal=..., window_size=20); use the provided noisy_signal instead of generating a replacement signal. Return a filtered signal of length len(noisy_signal) - window_size + 1. Focus on multi-objective optimization of: slope change minimization, lag error minimization, tracking accuracy, and false reversal penalty."
   patch_types: [diff, full, cross]
   patch_type_probs: [0.6, 0.3, 0.1]
   num_generations: 50
