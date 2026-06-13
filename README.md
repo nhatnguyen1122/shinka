@@ -65,10 +65,10 @@ conda activate shinka_exp
 
 python -m pip install --upgrade pip
 python -m pip install -e .
-python -m pip install numpy scipy matplotlib pandas pyyaml openai litellm tqdm rich
+python -m pip install numpy scipy matplotlib pandas pyyaml openai litellm tqdm rich jax jaxlib optax
 ```
 
-The local `openevolve_test` environment used during development contains many extra packages and macOS-specific packages. The command above is the cleaner Linux starting point for these parity benchmarks; install additional packages only if a benchmark reports a missing dependency.
+The local `openevolve_test` environment used during development contains many extra packages and macOS-specific packages. The command above is the cleaner Linux starting point for these parity benchmarks. `jax`, `jaxlib`, and `optax` are needed by the Erdos minimum-overlap seed program.
 
 ### API Key
 

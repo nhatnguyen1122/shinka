@@ -17,9 +17,10 @@ Install ShinkaEvolve in the environment used for experiments:
 
 ```bash
 conda run -n openevolve_test pip install -e .
+conda run -n openevolve_test pip install numpy scipy matplotlib pandas pyyaml openai litellm tqdm rich jax jaxlib optax
 ```
 
-This workspace has been verified with an editable install in `openevolve_test`.
+This workspace has been verified with an editable install in `openevolve_test`. The Erdos minimum-overlap seed program imports JAX and Optax, so `jax`, `jaxlib`, and `optax` must be available when running that benchmark.
 
 The Shinka configs use the OpenAI-compatible local backend string:
 
