@@ -75,7 +75,7 @@ The local `openevolve_test` environment used during development contains many ex
 Set the NVIDIA key in the shell or in a local `.env` file that is never committed:
 
 ```bash
-export NVIDIA_API_KEY="nvapi-..."
+export NVIDIA_API_KEY="<your-nvidia-api-key>"
 ```
 
 The requested parity configs use NVIDIA's OpenAI-compatible endpoint through model strings such as `local/openai/gpt-oss-120b@https://integrate.api.nvidia.com/v1?api_key_env=NVIDIA_API_KEY`.
