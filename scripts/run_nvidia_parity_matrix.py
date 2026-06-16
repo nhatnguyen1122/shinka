@@ -94,6 +94,10 @@ BENCHMARKS = {
         "alias": "trimul",
         "config": "examples/openevolve_parity/coral_trimul_nvidia.yaml",
     },
+    "coral_kernel_builder": {
+        "alias": "kbuilder",
+        "config": "examples/openevolve_parity/coral_kernel_builder_nvidia.yaml",
+    },
 }
 
 

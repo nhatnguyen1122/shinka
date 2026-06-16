@@ -38,6 +38,11 @@ def _write_specs(task_yml: Path, mode: str, output_path: Path) -> None:
     specs = list(config.get(key, []))
     if os.environ.get("CORAL_TRIMUL_QUICK") == "1":
         specs = specs[:1]
+    elif os.environ.get("CORAL_TRIMUL_SUBSET") == "medium":
+        # Full CORAL TriMul includes 768/1024 sequence cases that OOM on
+        # smaller GPUs. Medium keeps multiple mask/distribution cases while
+        # avoiding the largest tensors.
+        specs = [spec for spec in specs if int(spec.get("seqlen", 0)) <= 256]
     with output_path.open("w", encoding="utf-8") as f:
         for spec in specs:
             f.write("; ".join(f"{k}: {v}" for k, v in spec.items()) + "\n")
@@ -144,4 +149,5 @@ def evaluate(program_path: str) -> dict:
         "runtime_ns_geomean": float(geomean_ns),
         "benchmark_count": len(timings_ns),
         "quick_mode": 1.0 if os.environ.get("CORAL_TRIMUL_QUICK") == "1" else 0.0,
+        "subset_medium": 1.0 if os.environ.get("CORAL_TRIMUL_SUBSET") == "medium" else 0.0,
     }

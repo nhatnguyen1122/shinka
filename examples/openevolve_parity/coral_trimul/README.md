@@ -23,3 +23,11 @@ python scripts/run_nvidia_parity_matrix.py \
 ```
 
 For a cheap server smoke test, prefix the command with `CORAL_TRIMUL_QUICK=1` and use `--runs 1 --generations 1 --fail-fast`. Do not use quick mode for final comparisons.
+
+On smaller GPUs, use the explicit medium subset for comparable experiments:
+
+```bash
+CORAL_TRIMUL_SUBSET=medium python scripts/run_nvidia_parity_matrix.py ...
+```
+
+The medium subset keeps all CORAL tests and benchmarks with `seqlen <= 256` and avoids the full suite's 768/1024 sequence cases.
