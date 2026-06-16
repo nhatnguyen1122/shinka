@@ -28,17 +28,17 @@ evo_config:
     Use the VLIW/SIMD machine efficiently: 12 alu, 6 valu, 2 load, 2 store,
     and 1 flow slot per cycle. Focus on packing, vectorization, memory access,
     loop unrolling, and dependency scheduling.
+    
+    Prefer small, targeted edits to the existing KernelBuilder implementation.
+    Preserve the public KernelBuilder API, DebugInfo, and simulator instruction
+    format. Do not rewrite the whole file unless absolutely necessary.
   patch_types:
-    - full
     - diff
-    - cross
   patch_type_probs:
-    - 0.4
-    - 0.5
-    - 0.1
+    - 1.0
   num_generations: 100
-  max_patch_resamples: 3
-  max_patch_attempts: 1
+  max_patch_resamples: 5
+  max_patch_attempts: 2
   job_type: local
   language: python
   llm_models:
@@ -47,7 +47,7 @@ evo_config:
   llm_kwargs:
     temperatures:
       - 0.2
-    max_tokens: 4096
+    max_tokens: 8192
     reasoning_efforts:
       - disabled
   meta_rec_interval: null
