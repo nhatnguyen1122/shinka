@@ -86,6 +86,14 @@ BENCHMARKS = {
     },
     "k_module_problem": {"alias": "kmod", "config": "examples/openevolve_parity/k_module_problem_nvidia.yaml"},
     "signal_processing": {"alias": "sp", "config": "examples/openevolve_parity/signal_processing_nvidia.yaml"},
+    "signal_processing_skydiscover": {
+        "alias": "sp_sky",
+        "config": "examples/openevolve_parity/signal_processing_skydiscover_nvidia.yaml",
+    },
+    "coral_trimul": {
+        "alias": "trimul",
+        "config": "examples/openevolve_parity/coral_trimul_nvidia.yaml",
+    },
 }
 
 

@@ -46,7 +46,8 @@ The framework supports **parallel evaluation of candidates** locally or on a Slu
 
 Use this section to run only the requested ShinkaEvolve experiments:
 
-- signal processing (`sp`)
+- OpenEvolve-parity signal processing (`sp`)
+- native SkyDiscover signal processing (`sp_sky`, optional when comparing against SkyDiscover's native SP evaluator)
 - circle packing 26 (`cp`)
 - circle packing 32 (`cp32`)
 - circle packing rectangle (`cprect`)
@@ -96,6 +97,16 @@ python scripts/run_nvidia_parity_matrix.py \
 Notes:
 
 - ShinkaEvolve's parity runner accepts `--generations`; this is the equivalent run length control for these experiments.
+- `sp` is the OpenEvolve-parity signal-processing benchmark.
+- `sp_sky` is the native SkyDiscover signal-processing benchmark. Run it separately or add it to `--benchmarks` when you want SkyDiscover-native SP results:
+  ```bash
+  python scripts/run_nvidia_parity_matrix.py \
+    --runs 5 \
+    --benchmarks sp_sky \
+    --generations 300 \
+    --output-root results/server_shinka_sp_sky_5runs_300gen \
+    --resume
+  ```
 - These Shinka configs do not use a total-token-budget field like OpenEvolve's `llm.max_total_tokens`. They set per-call `max_tokens: 4096`; leave token budgeting to the provider/account limits unless you add a Shinka-specific cost cap.
 - `--resume` skips/reuses completed run directories when rerunning the same command.
 - Use `--fail-fast` if the server should stop on the first failed run.
