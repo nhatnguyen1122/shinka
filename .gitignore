@@ -207,3 +207,4 @@ cython_debug/
 
 # Local browser automation state
 .playwright-cli/
+paths/
